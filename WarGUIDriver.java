@@ -11,11 +11,5 @@ public class WarGUIDriver
 //       frame.setSize(500,500);
        frame.validate();
        frame.setVisible(true);
-
-
-   
-   
    }
-
-
 }

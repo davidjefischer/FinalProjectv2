@@ -7,62 +7,70 @@ public class WarGUI extends JFrame
    private War game;
    private JPanel topPanel, midPanel, bottomPanel, player1Battle, player2Battle, nextPanel,
                extrasPanel, actionsPanel;
-   private JLabel status, title, result, player1Deck, player2Deck;
+   private JLabel status, title, result, player1Deck, player2Deck, numTurnsLabel;
    private JLabel[] player1Mid, player2Mid;
    private JButton next, play, shuffle, reset;
+   private Integer numTurns;
    
    public WarGUI()
    {
+      numTurns = 0;
+      
       setLayout(new GridLayout(3, 1));
       
       game = new War();
       
       topPanel = new JPanel();
-      System.out.println(Card.BACK_LINK);
-      ImageIcon image = new ImageIcon(Card.BACK_LINK);
-      player2Deck = new JLabel(image);
+      player2Deck = new JLabel(new ImageIcon(Card.BACK_LINK));
       topPanel.add(player2Deck);
       add(topPanel);
       
-      // midPanel = new JPanel();
-//       midPanel.setLayout(new GridLayout(2,2));
-//       
-//       player1Battle = new JPanel();
-//       player2Battle = new JPanel();
-//       player1Mid = new JLabel[0];
-//       player2Mid = new JLabel[0];
-//       midPanel.add(player2Battle);
-//       midPanel.add(player1Battle);
-//       
-//       extrasPanel = new JPanel();
-//       extrasPanel.setLayout(new GridLayout(2,1));
-//       result = new JLabel();
-//       extrasPanel.add(result);
-//       nextPanel = new JPanel();
-//       next = new JButton("Continue");
-//       next.addActionListener(new nextListener());
-//       next.setEnabled(false);
-//       nextPanel.add(next);
-//       extrasPanel.add(nextPanel);
-//       midPanel.add(extrasPanel);
-//       add(midPanel);
-//       
-//       bottomPanel = new JPanel();
-//       bottomPanel.setLayout(new GridLayout(1,2));
-//       player1Deck = new JLabel(new ImageIcon(Card.BACK_LINK));
-//       bottomPanel.add(player1Deck);
-//       actionsPanel = new JPanel();
-//       play = new JButton("Play a turn");
-//       play.addActionListener(new playTurn());
-//       actionsPanel.add(play);
-//       shuffle = new JButton("Shuffle");
-//       shuffle.addActionListener(new shuffleListener());
-//       actionsPanel.add(shuffle);
-//       reset = new JButton("Start a new game");
-//       reset.addActionListener(new newGame());
-//       actionsPanel.add(reset);
-//       bottomPanel.add(actionsPanel);
-//       add(bottomPanel);
+      midPanel = new JPanel();
+      midPanel.setLayout(new GridLayout(2,2));
+      
+      player1Battle = new JPanel();
+      player2Battle = new JPanel();
+      player1Mid = new JLabel[1];
+      player2Mid = new JLabel[1];
+      player1Mid[0] = new JLabel(new ImageIcon("back.jpg"));
+      player2Mid[0] = new JLabel(new ImageIcon("back.jpg"));
+      player1Battle.add(player1Mid[0]);
+      player2Battle.add(player2Mid[0]);
+      midPanel.add(player2Battle);
+      midPanel.add(player1Battle);
+      
+      extrasPanel = new JPanel();
+      extrasPanel.setLayout(new GridLayout(2,1));
+      result = new JLabel();
+      extrasPanel.add(result);
+      nextPanel = new JPanel();
+      next = new JButton("Continue");
+      next.addActionListener(new nextListener());
+      next.setEnabled(false);
+      nextPanel.add(next);
+      extrasPanel.add(nextPanel);
+      midPanel.add(extrasPanel);
+      add(midPanel);
+      
+      bottomPanel = new JPanel();
+      bottomPanel.setLayout(new GridLayout(1,2));
+      player1Deck = new JLabel(new ImageIcon(Card.BACK_LINK));
+      bottomPanel.add(player1Deck);
+      actionsPanel = new JPanel();
+      play = new JButton("Play a turn");
+      play.addActionListener(new playTurn());
+      actionsPanel.add(play);
+      shuffle = new JButton("Shuffle");
+      shuffle.addActionListener(new shuffleListener());
+      actionsPanel.add(shuffle);
+      reset = new JButton("Start a new game");
+      reset.addActionListener(new newGame());
+      actionsPanel.add(reset);
+      numTurnsLabel = new JLabel("Turn: " + numTurns.toString());
+      actionsPanel.add(numTurnsLabel);
+      bottomPanel.add(actionsPanel);
+      
+      add(bottomPanel);
    }
    
    private class playTurn implements ActionListener
@@ -92,17 +100,27 @@ public class WarGUI extends JFrame
             updateMiddle();
          }
          next.setEnabled(true);
+         play.setEnabled(false);
+         reset.setEnabled(false);
+         result.setText("");
+         
+         //update num of turns
+         numTurns += 1;
+         actionsPanel.remove(numTurnsLabel);
+         numTurnsLabel = new JLabel("Turn: " + numTurns.toString());
+         actionsPanel.add(numTurnsLabel);
       }
+      
    }
    
    public void updateMiddle()
    {
-       player1Battle.removeAll();
-       player2Battle.removeAll();
+      player1Battle.removeAll();
+      player2Battle.removeAll();
 
       //clear the label arrays that will hold the images
-      player1Mid = new JLabel[game.getPlayer1Middle().getSize() - 1];
-      player2Mid = new JLabel[game.getPlayer2Middle().getSize() - 1];
+      player1Mid = new JLabel[game.getPlayer1Middle().getSize()];
+      player2Mid = new JLabel[game.getPlayer2Middle().getSize()];
       
       //for each item in the middle, add the card to the middle label
       for (int count = 0; count < game.getPlayer1Middle().getSize(); count++)
@@ -124,6 +142,7 @@ public class WarGUI extends JFrame
       {
          player2Battle.add(label);
       }
+      
    }
    
    public void disableAll()
@@ -217,11 +236,10 @@ public class WarGUI extends JFrame
             
             updateMiddle();
          }
-         
          next.setEnabled(false);
+         play.setEnabled(true);
+         reset.setEnabled(true);
       }
-      
-      
    }
    
    public class shuffleListener implements ActionListener
@@ -238,6 +256,11 @@ public class WarGUI extends JFrame
       {
          game = new War();
          updateMiddle();
+         result.setText("");
+         numTurns = 0;
+         actionsPanel.remove(numTurnsLabel);
+         numTurnsLabel = new JLabel("Turn: " + numTurns.toString());
+         actionsPanel.add(numTurnsLabel);
       }
    }
 }

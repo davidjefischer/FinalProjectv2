@@ -22,7 +22,8 @@ public class CardPile
    
    public CardPile(CardPile toCopy)
    {
-      for (int count = 0; count < toCopy.getSize() - 1; count++)
+      pile = new ArrayList<Card>();
+      for (int count = 0; count < toCopy.getSize(); count++)
       {
          pile.add(toCopy.get(count));
       }

@@ -7,7 +7,7 @@ public class Card
                   EIGHT, NINE, TEN, JACK, QUEEN, KING}
                   
    enum Suit {HEARTS, SPADES, CLUBS, DIAMONDS}
-   public static final String BACK_LINK = "/cardpics/back.jpg";
+   public static final String BACK_LINK = "back.jpg";
    private Rank rank;
    private Suit suit;
    private String image;
