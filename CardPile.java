@@ -5,21 +5,36 @@ public class CardPile
 {
    private ArrayList<Card> pile;
    
+   /**
+   default constructor creates an empty pile
+   */
    public CardPile()
    {
       pile = new ArrayList<Card>();
    }
    
+   /**
+    * overloaded allows to create an empty pile of a certain size
+    * @param numItems size of the pile
+   */
    public CardPile(int numItems)
    {
       pile = new ArrayList<Card>(numItems);
    }
    
+   /**
+    * copy constructor
+    * @param toCopy The array list of cards to copy.
+   */
    public CardPile(ArrayList<Card> toCopy)
    {
       pile = new ArrayList<Card>(toCopy);
    }
    
+   /**
+    * copy constructor v2
+    * @param toCopy the card pile to copy
+   */
    public CardPile(CardPile toCopy)
    {
       pile = new ArrayList<Card>();
@@ -29,16 +44,28 @@ public class CardPile
       }
    }
    
+   /**
+    * gets the size of the pile
+    * @return The size of the pile
+   */
    public int getSize()
    {
       return pile.size();
    }
    
+   /**
+    * adds a card to the pile
+    * @param toAdd the card to add
+   */
    public void add(Card toAdd)
    {
       pile.add(toAdd);
    }
    
+   /**
+    * adds a card pile to the card pile
+    * @param toAdd The cardpile to add
+   */
    public void add(CardPile toAdd)
    {
       for (int count = 0; count < toAdd.getSize(); count++)
@@ -47,6 +74,9 @@ public class CardPile
       }
    }
    
+   /**
+    * allows removal of card from a certain index
+    * */
    public void remove(int index)
    {
       pile.remove(index);
