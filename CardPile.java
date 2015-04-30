@@ -76,12 +76,17 @@ public class CardPile
    
    /**
     * allows removal of card from a certain index
+    * @param index The index of the card to remove
     * */
    public void remove(int index)
    {
       pile.remove(index);
    }
    
+   /**
+    * allows retrieval of card from an index
+    * @param index the index of the card to get
+   */
    public Card get(int index)
    {
       return pile.get(index);
